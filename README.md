@@ -8,11 +8,9 @@ This is a backend part for my diploma: base API for creating new users and authe
 3. MongoDB (Mongoose).
 4. Postman.
 5. Linter.
+## Starting
+`npm run start` — run server   
+`npm run dev` — run server with hot-reload
 
 ## ***Improvements***
 1. Use async/await insted of then.
-
-## Starting
-
-`npm run start` — run server   
-`npm run dev` — run server with hot-reload

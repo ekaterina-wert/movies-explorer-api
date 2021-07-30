@@ -5,8 +5,8 @@ module.exports = function handleErrors(err, req, res, next) {
 
   res.status(statusCode).send({
     message: statusCode === SERVER_ERROR
-      ? message
-      // ? 'На сервере произошла ошибка'
+      // ? message
+      ? 'На сервере произошла ошибка'
       : message,
   });
   return next();

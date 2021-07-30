@@ -68,7 +68,8 @@ const logout = (req, res, next) => res.clearCookie('jwt', {
   sameSite: true,
   // sameSite: 'none',
   // secure: true,
-}).send({ message: 'Токен успешно удален' })
+})
+  .status(OK).send({ message: 'Токен успешно удален' })
   .catch(next);
 
 module.exports = {

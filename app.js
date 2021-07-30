@@ -1,21 +1,24 @@
 const express = require('express');
 const mongoose = require('mongoose');
-// require('dotenv').config();
-// const helmet = require('helmet');
-// const cookieParser = require('cookie-parser');
+require('dotenv').config();
+const helmet = require('helmet');
+const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
-// const auth = require('./middlewares/auth');
-// const { requestLogger, errorLogger } = require('./middlewares/logger');
+const cors = require('./middlewares/cors');
+const limiter = require('./middlewares/rate-limit');
+const auth = require('./middlewares/auth');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const handleErrors = require('./middlewares/handle-errors');
 const NotFoundError = require('./errors/not-found-error');
-const { MONGO_URL } = require('./utils/constants');
+// const { MONGO_URL } = require('./utils/constants');
 
-const { PORT = 3030 } = process.env;
+const { MONGO_URL, PORT = 3030 } = process.env;
 
 const app = express();
 
-// app.use(helmet());
-// app.use(cookieParser());
+app.use(cors);
+
+app.use(helmet());
 
 mongoose.connect(MONGO_URL, {
   useNewUrlParser: true,
@@ -27,20 +30,24 @@ mongoose.connect(MONGO_URL, {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.use(requestLogger); // подключаем логгер запросов до обработчиков роутов
+app.use(cookieParser());
+
+app.use(requestLogger); // подключаем логгер запросов до обработчиков роутов
+
+app.use(limiter);
 
 // роуты, не требующие авторизации
 app.use('/', require('./routes/auth'));
 
 // авторизация
-// app.use(auth);
+app.use(auth);
 
 // роуты, для которых нужна авторизации
-// app.use('/users', require('./routes/users'));
+app.use('/users', require('./routes/users'));
 
-// app.use('/cards', require('./routes/cards'));
+app.use('/movies', require('./routes/movies'));
 
-// app.use(errorLogger); // подключаем логгер ошибок после роутов и до обработчиков ошибок
+app.use(errorLogger); // подключаем логгер ошибок после роутов и до обработчиков ошибок
 
 // Обработка ошибок валидатора celebrate
 app.use(errors());

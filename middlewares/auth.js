@@ -1,20 +1,20 @@
 const jwt = require('jsonwebtoken');
 const TokenError = require('../errors/unauthorized-error');
-// const ForbiddenError = require('../errors/forbidden-error');
+const ForbiddenError = require('../errors/forbidden-error');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports = function auth(req, res, next) {
-  // const token = req.cookies.jwt;
+  const token = req.cookies.jwt;
 
-  // if (!token) {
-  //   throw new ForbiddenError('Необходима авторизация пользователя');
-  // }
+  if (!token) {
+    throw new ForbiddenError('Необходима авторизация пользователя');
+  }
 
   let payload;
   try {
     // верификация токена
-    payload = jwt.verify(req.cookies.jwt, NODE_ENV === 'production' ? JWT_SECRET : 'sesesecret');
+    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'sesesecret');
   } catch (err) {
     throw new TokenError('Передан некорректный токен');
   }

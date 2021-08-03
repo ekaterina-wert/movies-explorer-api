@@ -2,7 +2,7 @@
 
 This is a backend part for my diploma: base API for creating new users and authentification. Token is verified using cookies.
 
-Server is located ///
+Server is located https://api.wert-movies.nomoredomains.club
 
 ## **Technology stack:**
 1. Node.js.

@@ -1,6 +1,6 @@
 const allowedCors = [
-  'https://wert',
-  'http://wert',
+  'https://wert-movies.nomoredomains.club',
+  'http://wert-movies.nomoredomains.club',
   'http://localhost:3000',
 ];
 

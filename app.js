@@ -15,12 +15,9 @@ const { MONGO_URL, PORT = 3030 } = process.env;
 
 const app = express();
 
-// app.use(cors);
+app.use(cors);
 
 app.use(helmet());
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 mongoose.connect(MONGO_URL, {
   useNewUrlParser: true,
@@ -28,6 +25,9 @@ mongoose.connect(MONGO_URL, {
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 

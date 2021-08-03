@@ -16,7 +16,7 @@ const { MONGO_URL, PORT = 3030 } = process.env;
 
 const app = express();
 
-app.use(cors);
+// app.use(cors);
 
 app.use(helmet());
 

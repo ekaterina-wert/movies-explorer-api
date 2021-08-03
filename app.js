@@ -10,7 +10,6 @@ const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const handleErrors = require('./middlewares/handle-errors');
 const NotFoundError = require('./errors/not-found-error');
-// const { MONGO_URL } = require('./utils/constants');
 
 const { MONGO_URL, PORT = 3030 } = process.env;
 
@@ -20,15 +19,15 @@ const app = express();
 
 app.use(helmet());
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 mongoose.connect(MONGO_URL, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 

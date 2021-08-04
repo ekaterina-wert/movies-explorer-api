@@ -12,6 +12,7 @@ const handleErrors = require('./middlewares/handle-errors');
 const NotFoundError = require('./errors/not-found-error');
 
 const { NODE_ENV, MONGO_URL, PORT = 3030 } = process.env;
+const { DEV_MONGO_URL } = require('./utils/constants');
 
 const app = express();
 
@@ -19,7 +20,7 @@ app.use(cors);
 
 app.use(helmet());
 
-mongoose.connect(NODE_ENV === 'production' ? MONGO_URL : 'mongodb://localhost:27017/bitfilmsdb', {
+mongoose.connect(NODE_ENV === 'production' ? MONGO_URL : DEV_MONGO_URL, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,

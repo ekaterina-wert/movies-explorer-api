@@ -6,4 +6,5 @@ module.exports = Object.freeze({
   NOT_FOUND: 404,
   CONFLICT: 409,
   SERVER_ERROR: 500,
+  DEV_MONGO_URL: 'mongodb://localhost:27017/bitfilmsdb',
 });

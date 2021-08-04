@@ -11,7 +11,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const handleErrors = require('./middlewares/handle-errors');
 const NotFoundError = require('./errors/not-found-error');
 
-const { MONGO_URL, PORT = 3030 } = process.env;
+const { NODE_ENV, MONGO_URL, PORT = 3030 } = process.env;
 
 const app = express();
 
@@ -19,7 +19,7 @@ app.use(cors);
 
 app.use(helmet());
 
-mongoose.connect(MONGO_URL, {
+mongoose.connect(NODE_ENV === 'production' ? MONGO_URL : 'mongodb://localhost:27017/bitfilmsdb', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,

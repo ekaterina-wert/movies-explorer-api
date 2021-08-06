@@ -1,6 +1,7 @@
 const User = require('../models/user');
 
 const BadRequestError = require('../errors/bad-request-error');
+const ConflictError = require('../errors/conflict-error');
 
 const { OK } = require('../utils/constants');
 
@@ -16,11 +17,11 @@ const getUser = (req, res, next) => User.findById(req.user._id)
 
 // Изменить информацию о пользователе
 const updateUser = (req, res, next) => {
-  const { name } = req.body;
+  const { name, email } = req.body;
 
   return User.findByIdAndUpdate(
     req.user._id,
-    { name },
+    { name, email },
     {
       new: true,
       runValidators: true,
@@ -29,8 +30,14 @@ const updateUser = (req, res, next) => {
   )
     .then((user) => res.status(OK).send({ user }))
     .catch((err) => {
-      if (err.name === 'ValidationError') next(new BadRequestError('Переданы некорректные данные'));
-      next(err);
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError('Переданы некорректные данные'));
+      }
+      else if (err.name === 'MongoError' && err.code === 11000) {
+        next(new ConflictError('Юзер с таким имейлом уже существует'));
+      } else {
+        next(err);
+      }
     });
 };
 

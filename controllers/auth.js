@@ -25,9 +25,13 @@ const createUser = (req, res, next) => {
       email,
     }))
     .catch((err) => {
-      if (err.name === 'MongoError' && err.code === 11000) next(new ConflictError('Юзер с таким имейлом уже существует'));
-      if (err.name === 'ValidationError') next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
-      next(err);
+      if (err.name === 'MongoError' && err.code === 11000) {
+        next(new ConflictError('Юзер с таким имейлом уже существует'));
+      } else if (err.name === 'ValidationError') {
+        next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
+      } else {
+        next(err);
+      }
     });
 };
 
@@ -57,8 +61,11 @@ const login = (req, res, next) => {
         });
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') next(new BadRequestError('Переданы некорректные данные'));
-      next(err);
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError('Переданы некорректные данные'));
+      } else {
+        next(err);
+      }
     });
 };
 

@@ -43,19 +43,19 @@ app.use('/', require('./routes/auth'));
 app.use(auth);
 
 // роуты, для которых нужна авторизации
-app.use('/users', require('./routes/users'));
+app.use('/', require('./routes/users'));
 
-app.use('/movies', require('./routes/movies'));
+app.use('/', require('./routes/movies'));
+
+// Handling 404
+app.use(() => {
+  throw new NotFoundError('Такой страницы не существует');
+});
 
 app.use(errorLogger); // подключаем логгер ошибок после роутов и до обработчиков ошибок
 
 // Обработка ошибок валидатора celebrate
 app.use(errors());
-
-// Handling 404
-app.use((err) => {
-  if (err) throw new NotFoundError('Такой страницы не существует');
-});
 
 // мидлвэр для централизованной обработки ошибок
 app.use(handleErrors);

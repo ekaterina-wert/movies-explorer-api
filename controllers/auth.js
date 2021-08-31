@@ -19,7 +19,6 @@ const createUser = (req, res, next) => {
     .then((hash) => User.create({
       name, email, password: hash,
     }))
-
     .then((user) => res.status(OK).send({
       name: user.name,
       email,
@@ -50,9 +49,8 @@ const login = (req, res, next) => {
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
-        sameSite: 'Lax',
-        // sameSite: 'none',
-        // secure: true,
+        sameSite: 'none',
+        secure: true,
       })
         .status(OK).send({
           _id: user._id,
@@ -72,9 +70,8 @@ const login = (req, res, next) => {
 // Разлогиниться
 const logout = (req, res, next) => res.clearCookie('jwt', {
   httpOnly: true,
-  sameSite: 'Lax',
-  // sameSite: 'none',
-  // secure: true,
+  sameSite: 'none',
+  secure: true,
 })
   .status(OK).send({ message: 'Токен успешно удален' })
   .catch(next);

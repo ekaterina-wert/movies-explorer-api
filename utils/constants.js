@@ -7,4 +7,5 @@ module.exports = Object.freeze({
   CONFLICT: 409,
   SERVER_ERROR: 500,
   DEV_MONGO_URL: 'mongodb://localhost:27017/bitfilmsdb',
+  DEFAULT_ALLOWED_METHODS: 'GET, HEAD, PUT, PATCH, POST, DELETE, OPTIONS',
 });
